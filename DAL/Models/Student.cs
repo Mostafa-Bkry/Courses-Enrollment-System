@@ -19,7 +19,7 @@ namespace DAL.Models
         [StringLength(11, MinimumLength = 11)]
         public string? PhoneNumber { get; set; }
 
-        public virtual ICollection<StudentCourse> StudentCourses { get; set; } 
-            = new HashSet<StudentCourse>();
+        public virtual ICollection<Enrollment> Enrollments { get; set; } 
+            = new HashSet<Enrollment>();
     }
 }

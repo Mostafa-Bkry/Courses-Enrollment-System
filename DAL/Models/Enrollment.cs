@@ -1,7 +1,7 @@
 ﻿
 namespace DAL.Models
 {
-    public class StudentCourse
+    public class Enrollment
     {
         public int CourseId { get; set; }
         public int StudentId { get; set; }

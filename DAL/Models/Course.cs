@@ -13,7 +13,7 @@ namespace DAL.Models
 
         public int MaxCapacity { get; set; }
 
-        public virtual ICollection<StudentCourse> StudentCourses { get; set; } 
-            = new HashSet<StudentCourse>();
+        public virtual ICollection<Enrollment> Enrollments { get; set; } 
+            = new HashSet<Enrollment>();
     }
 }

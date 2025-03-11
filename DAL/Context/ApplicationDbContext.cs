@@ -7,7 +7,7 @@ namespace DAL.Context
     {
         public virtual DbSet<Course> Courses { get; set; }
         public virtual DbSet<Student> Students { get; set; }
-        public virtual DbSet<StudentCourse> StudentCourses { get; set; }
+        public virtual DbSet<Enrollment> Enrollments { get; set; }
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         { }
@@ -15,18 +15,18 @@ namespace DAL.Context
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             #region Models Relationships
-            modelBuilder.Entity<StudentCourse>()
+            modelBuilder.Entity<Enrollment>()
                 .HasKey(sc => new { sc.StudentId, sc.CourseId });
 
-            modelBuilder.Entity<StudentCourse>()
+            modelBuilder.Entity<Enrollment>()
                         .HasOne(sc => sc.Student)
-                        .WithMany(s => s.StudentCourses)
+                        .WithMany(s => s.Enrollments)
                         .HasForeignKey(sc => sc.StudentId)
                         .OnDelete(DeleteBehavior.NoAction);
 
-            modelBuilder.Entity<StudentCourse>()
+            modelBuilder.Entity<Enrollment>()
                         .HasOne(sc => sc.Course)
-                        .WithMany(s => s.StudentCourses)
+                        .WithMany(s => s.Enrollments)
                         .HasForeignKey(sc => sc.CourseId)
                         .OnDelete(DeleteBehavior.NoAction); 
             #endregion
@@ -38,8 +38,8 @@ namespace DAL.Context
             modelBuilder.Entity<Course>()
                         .HasData(CoursesSeed.InitialCourses);
 
-            modelBuilder.Entity<StudentCourse>()
-                        .HasData(StudentCoursesSeed.InitialStCourses);
+            modelBuilder.Entity<Enrollment>()
+                        .HasData(EnrollmentsSeed.InitialStCourses);
             #endregion
 
             base.OnModelCreating(modelBuilder);
