@@ -16,24 +16,30 @@ namespace DAL.Context
         {
             #region Models Relationships
             modelBuilder.Entity<StudentCourse>()
-                           .HasKey(sc => new { sc.StudentId, sc.CourseId });
+                .HasKey(sc => new { sc.StudentId, sc.CourseId });
 
             modelBuilder.Entity<StudentCourse>()
                         .HasOne(sc => sc.Student)
                         .WithMany(s => s.StudentCourses)
                         .HasForeignKey(sc => sc.StudentId)
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.NoAction);
 
             modelBuilder.Entity<StudentCourse>()
                         .HasOne(sc => sc.Course)
                         .WithMany(s => s.StudentCourses)
                         .HasForeignKey(sc => sc.CourseId)
-                        .OnDelete(DeleteBehavior.Cascade); 
+                        .OnDelete(DeleteBehavior.NoAction); 
             #endregion
 
             #region Data Seeding
             modelBuilder.Entity<Student>()
-                            .HasData(StudentsSeed.InitialStudents); 
+                        .HasData(StudentsSeed.InitialStudents);
+
+            modelBuilder.Entity<Course>()
+                        .HasData(CoursesSeed.InitialCourses);
+
+            modelBuilder.Entity<StudentCourse>()
+                        .HasData(StudentCoursesSeed.InitialStCourses);
             #endregion
 
             base.OnModelCreating(modelBuilder);
