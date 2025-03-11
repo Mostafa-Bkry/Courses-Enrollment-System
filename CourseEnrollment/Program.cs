@@ -1,6 +1,6 @@
 using DAL.Context;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
+using Repository.Interfaces;
 
 namespace CourseEnrollment
 {
@@ -14,8 +14,14 @@ namespace CourseEnrollment
             // Add services to the container.
             builder.Services.AddControllersWithViews();
 
+
+            // Register Database Service using EFCore In memory database
             builder.Services.AddDbContext<ApplicationDbContext>(
                 options => options.UseInMemoryDatabase(connectionString));
+
+            // Register repositories in the unit of work
+            //builder.Services.AddTransient<IUnitOfWorkRepository, IUnitOfWorkRepository>();
+
 
             var app = builder.Build();
 
