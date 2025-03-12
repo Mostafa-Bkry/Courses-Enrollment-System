@@ -11,6 +11,7 @@ namespace DAL.Models
         [MaxLength(600)]
         public string? Description { get; set; }
 
+        [Display(Name = "Max Seats")]
         public int MaxCapacity { get; set; }
 
         public virtual ICollection<Enrollment> Enrollments { get; set; } 

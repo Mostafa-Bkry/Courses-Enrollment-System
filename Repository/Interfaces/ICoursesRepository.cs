@@ -5,5 +5,7 @@ namespace Repository.Interfaces
     {
         List<Course> GetAll();
         Course GetById(int id);
+
+        bool Add(Course course);
     }
 }

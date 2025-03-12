@@ -17,5 +17,15 @@ namespace Repository.Repositories
             Students = new StudentsRepository();
             Enrollments = new EnrollmentsRepository();
         }
+
+        public int Complete()
+        {
+            return _context?.SaveChanges() ?? 0;
+        }
+
+        public void Dispose()
+        {
+            _context.Dispose();
+        }
     }
 }

@@ -1,0 +1,44 @@
+﻿@model Course
+
+@{
+    ViewData["Title"] = "Add";
+}
+
+<div class="container">
+    <div class="row text-center">
+        <div>
+            <h5>Add New Course</h5>
+        </div>
+    </div>
+    <div class="row mt-4">
+        <div class="col-2"></div>
+        <div class="col">
+            <form asp-controller="Courses">
+                <div class="from-group mt-4">
+                    <label asp-for="Title"></label>
+                    <input class="form-control" asp-for="Title" placeholder="Course Name">
+                    <span class="text-danger" asp-validation-for="Title"></span>
+                </div>
+                <div class="from-group mt-4">
+                    <label asp-for="Description"></label>
+                    <input class="form-control" asp-for="Description" placeholder="Course Description">
+                    <span class="text-danger" asp-validation-for="Description"></span>
+                </div>
+                <div class="from-group mt-4">
+                    <label asp-for="MaxCapacity"></label>
+                    <input class="form-control" asp-for="MaxCapacity" placeholder="Maximum Course Seats">
+                    <span class="text-danger" asp-validation-for="MaxCapacity"></span>
+                </div>
+                <div class="from-group mt-4 text-center">
+                    <button type="submit" class="btn btn-success">Save</button>
+                </div>
+            </form>
+        </div>
+        <div class="col-2"></div>
+    </div>
+</div>
+
+
+@section Scripts{
+    <partial name="_ValidationScriptsPartial"></partial>
+}
