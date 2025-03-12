@@ -71,7 +71,7 @@ namespace CourseEnrollment.Controllers
             if (done)
                 _unitOfWork.Complete();
             else
-                return BadRequest("Faild Edit this course");
+                return BadRequest("Faild to Edit this course");
 
             return RedirectToAction(nameof(Index));
         }

@@ -37,7 +37,7 @@ namespace Repository.Repositories
                 existingCrs.Description = course.Description;
                 existingCrs.MaxCapacity = course.MaxCapacity;
 
-                return (_context?.Entry(course)?.State == EntityState.Modified) ? true : false;
+                return (_context?.Entry(existingCrs)?.State == EntityState.Modified) ? true : false;
             }
 
             return false;
