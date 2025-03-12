@@ -18,14 +18,17 @@ namespace CourseEnrollment.Controllers
             return View(coursesModel);
         }
 
+        #region Details with Partial View
         [HttpGet]
         public IActionResult Details(int id)
         {
             Course crsModel = _unitOfWork.Courses.GetById(id);
             return PartialView("_CourseDetailsPartialView", crsModel);
             //return View(crsModel);
-        }
+        } 
+        #endregion
 
+        #region Add
         [HttpGet]
         public IActionResult Add()
         {
@@ -37,15 +40,41 @@ namespace CourseEnrollment.Controllers
         public IActionResult Add(Course course)
         {
             if (!ModelState.IsValid)
-                return BadRequest("Can't Add this course");
+                return View(course);
 
             bool done = _unitOfWork.Courses.Add(course);
-            if(done)
+            if (done)
                 _unitOfWork.Complete();
             else
                 return BadRequest("Can't Savechanges of adding this course to database");
 
-            return View(nameof(Index), _unitOfWork.Courses.GetAll());
+            return RedirectToAction(nameof(Index));
         }
+        #endregion
+
+        #region Edit
+        [HttpGet]
+        public IActionResult Edit(int id)
+        {
+            Course crsModel = _unitOfWork.Courses.GetById(id);
+            return View(crsModel);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Edit(Course course)
+        {
+            if (!ModelState.IsValid)
+                return View(course);
+
+            bool done = _unitOfWork.Courses.Edit(course);
+            if (done)
+                _unitOfWork.Complete();
+            else
+                return BadRequest("Faild Edit this course");
+
+            return RedirectToAction(nameof(Index));
+        }
+        #endregion
     }
 }

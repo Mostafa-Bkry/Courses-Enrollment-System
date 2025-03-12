@@ -7,5 +7,6 @@ namespace Repository.Interfaces
         Course GetById(int id);
 
         bool Add(Course course);
+        bool Edit(Course course);
     }
 }

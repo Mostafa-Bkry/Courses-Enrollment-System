@@ -27,5 +27,21 @@ namespace Repository.Repositories
             _context?.Courses?.Add(course);
             return (_context?.Entry(course)?.State == EntityState.Added) ? true : false;
         }
+
+        public bool Edit(Course course)
+        {
+            Course? existingCrs = _context?.Courses?.Find(course.Id);
+
+            if(existingCrs is not null)
+            {
+                existingCrs.Title = course.Title;
+                existingCrs.Description = course.Description;
+                existingCrs.MaxCapacity = course.MaxCapacity;
+
+                return true;
+            }
+
+            return false;
+        }
     }
 }
