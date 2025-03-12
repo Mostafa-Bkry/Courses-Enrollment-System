@@ -1,5 +1,4 @@
-﻿
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 
 namespace Repository.Repositories
 {
@@ -38,7 +37,20 @@ namespace Repository.Repositories
                 existingCrs.Description = course.Description;
                 existingCrs.MaxCapacity = course.MaxCapacity;
 
-                return true;
+                return (_context?.Entry(course)?.State == EntityState.Modified) ? true : false;
+            }
+
+            return false;
+        }
+
+        public bool Delete(int id)
+        {
+            Course? existCrs = _context?.Courses?.Find(id);
+
+            if (existCrs is not null)
+            {
+                _context?.Remove(existCrs);
+                return (_context?.Entry(existCrs)?.State == EntityState.Deleted) ? true : false;
             }
 
             return false;

@@ -25,7 +25,7 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach(Course crs in Model)
+                @foreach (Course crs in Model)
                 {
                     <tr>
                         <td>@crs.Title</td>
@@ -38,9 +38,13 @@
                             <a class="btn btn-warning" asp-action="Edit" asp-route-id="@crs.Id">
                                 <i class="bi bi-pencil-fill"></i>
                             </a>
-                            <a class="btn btn-danger" asp-action="Details" asp-route-id="@crs.Id">
+                            @* <a class="btn btn-danger" asp-action="Delete" asp-route-id="@crs.Id">
+                        <i class="bi bi-trash3-fill"></i>
+                        </a> *@
+                            <a href="#" class="btn btn-danger delete-btn" data-id="@crs.Id" data-bs-toggle="modal" data-bs-target="#deleteModal">
                                 <i class="bi bi-trash3-fill"></i>
                             </a>
+
                         </td>
                     </tr>
                 }
@@ -48,3 +52,44 @@
         </table>
     </div>
 </div>
+
+
+
+<!-- Delete Confirmation Modal -->
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteModalLabel">Confirm Deletion</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Are you sure you want to delete this course?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <a href="#" id="confirmDeleteBtn" class="btn btn-danger">Delete</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+@section Scripts {
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            let deleteButtons = document.querySelectorAll(".delete-btn");
+            let confirmDeleteBtn = document.getElementById("confirmDeleteBtn");
+
+            deleteButtons.forEach(button => {
+                button.addEventListener("click", function () {
+                    let courseId = this.getAttribute("data-id");
+                    let deleteUrl = `/Courses/Delete/${courseId}`;
+                    confirmDeleteBtn.setAttribute("href", deleteUrl);
+                });
+            });
+        });
+    </script>
+
+}

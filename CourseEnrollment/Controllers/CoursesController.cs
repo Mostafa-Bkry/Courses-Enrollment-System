@@ -76,5 +76,20 @@ namespace CourseEnrollment.Controllers
             return RedirectToAction(nameof(Index));
         }
         #endregion
+
+        #region Delete
+        [HttpGet]
+        public IActionResult Delete(int id)
+        {
+            bool done = _unitOfWork.Courses.Delete(id);
+            if (done)
+                _unitOfWork.Complete();
+            else
+                return BadRequest("Faild Delete this course");
+
+            return RedirectToAction(nameof(Index));
+
+        }
+        #endregion
     }
 }

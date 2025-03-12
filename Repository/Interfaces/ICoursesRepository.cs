@@ -8,5 +8,6 @@ namespace Repository.Interfaces
 
         bool Add(Course course);
         bool Edit(Course course);
+        bool Delete(int id);
     }
 }
