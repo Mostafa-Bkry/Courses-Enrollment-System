@@ -15,8 +15,15 @@ namespace CourseEnrollment.Controllers
         public IActionResult Index()
         {
             List<Course> coursesModel = _unitOfWork.Courses.GetAll();
-            Course c = _unitOfWork.Courses.GetById(1);
             return View(coursesModel);
+        }
+
+        [HttpGet]
+        public IActionResult Details(int id)
+        {
+            Course crsModel = _unitOfWork.Courses.GetById(id);
+            return PartialView("_CourseDetailsPartialView", crsModel);
+            //return View(crsModel);
         }
     }
 }

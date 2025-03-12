@@ -1,8 +1,4 @@
 ﻿
-
-using Microsoft.Extensions.Options;
-using System;
-
 namespace Repository.Repositories
 {
     public class CoursesRepository : ICoursesRepository
@@ -16,7 +12,7 @@ namespace Repository.Repositories
 
         public List<Course> GetAll()
         {
-            return _context.Courses.ToList();
+            return _context?.Courses?.ToList() ?? new List<Course>();
         }
 
         public Course GetById(int id)

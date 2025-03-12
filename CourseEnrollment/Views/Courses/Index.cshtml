@@ -7,15 +7,21 @@
 
 <div class="container">
     <div class="row">
-        <a>Add Course</a>
+        <div class="col-6 md">
+            <a class="btn btn-warning btn-lg" asp-action="Add">
+                <i class="bi bi-plus-circle"> Add Course</i>
+            </a>
+        </div>
     </div>
+    <br />
     <div class="row">
-        <table class="table">
+        <table class="table table-bordered text-center">
             <thead>
                 <tr>
                     <th>Title</th>
                     <th>Description</th>
                     <th>Max Capacity</th>
+                    <th>Operations</th>
                 </tr>
             </thead>
             <tbody>
@@ -25,6 +31,17 @@
                         <td>@crs.Title</td>
                         <td>@crs.Description</td>
                         <td>@crs.MaxCapacity</td>
+                        <td>
+                            <a class="btn btn-info me-4" asp-action="Details" asp-route-id="@crs.Id">
+                                <i class="bi bi-info-lg"></i>
+                            </a>
+                            <a class="btn btn-warning" asp-action="Edit" asp-route-id="@crs.Id">
+                                <i class="bi bi-pencil-fill"></i>
+                            </a>
+                            <a class="btn btn-danger" asp-action="Details" asp-route-id="@crs.Id">
+                                <i class="bi bi-trash3-fill"></i>
+                            </a>
+                        </td>
                     </tr>
                 }
             </tbody>

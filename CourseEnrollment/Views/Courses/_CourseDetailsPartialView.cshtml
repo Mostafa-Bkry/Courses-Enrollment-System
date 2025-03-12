@@ -1,0 +1,25 @@
+﻿@model Course
+
+<head>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/CourseEnrollment.styles.css" asp-append-version="true" />
+</head>
+<br />
+<br />
+<br />
+<br />
+<div class="row align-content-center">
+    <div class="col-4"></div>
+    <div class="col-8">
+        <div class="card" style="width: 18rem;">
+            <img src="/assets/images/Courses.jpeg" class="card-img-top" alt="...">
+            <div class="card-body">
+                <h5 class="card-title">@Model.Title</h5>
+                <p class="card-text">@Model.Description.</p>
+                <p class="card-text">Seats: @Model.MaxCapacity</p>
+                <a class="btn btn-warning" asp-action="Index">All Courses</a>
+            </div>
+        </div>
+    </div>
+</div>
