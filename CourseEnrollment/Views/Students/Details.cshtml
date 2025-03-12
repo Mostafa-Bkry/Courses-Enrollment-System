@@ -1,0 +1,27 @@
+﻿@model Student
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+
+<br />
+<br />
+<br />
+<br />
+<div class="row align-content-center">
+    <div class="col-4"></div>
+    <div class="col-8">
+        <div class="card" style="width: 18rem;">
+            <img src="/assets/images/Students.jpg" class="card-img-top" alt="...">
+            <div class="card-body">
+                <h5 class="card-title">@Model.FullName</h5>
+                <p class="card-text">Email: @Model.Email.</p>
+                <p class="card-text">Birthdate: @Model.BirthDate</p>
+                <p class="card-text">National ID: @Model.NID</p>
+                <p class="card-text">Phone Number: @(Model.PhoneNumber ?? string.Empty)</p>
+                <a class="btn btn-warning" asp-action="Index">All Students</a>
+            </div>
+        </div>
+    </div>
+</div>

@@ -14,7 +14,7 @@ namespace Repository.Repositories
             _context = context;
 
             Courses = new CoursesRepository(_context);
-            Students = new StudentsRepository();
+            Students = new StudentsRepository(_context);
             Enrollments = new EnrollmentsRepository();
         }
 
