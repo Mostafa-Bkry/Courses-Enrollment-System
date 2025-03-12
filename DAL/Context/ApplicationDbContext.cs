@@ -14,6 +14,17 @@ namespace DAL.Context
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            #region Data Seeding
+            modelBuilder.Entity<Student>()
+                        .HasData(StudentsSeed.InitialStudents);
+
+            modelBuilder.Entity<Course>()
+                        .HasData(CoursesSeed.InitialCourses);
+
+            modelBuilder.Entity<Enrollment>()
+                        .HasData(EnrollmentsSeed.InitialEnrollments);
+            #endregion
+
             #region Models Relationships
             modelBuilder.Entity<Enrollment>()
                 .HasKey(sc => new { sc.StudentId, sc.CourseId });
@@ -29,17 +40,6 @@ namespace DAL.Context
                         .WithMany(s => s.Enrollments)
                         .HasForeignKey(sc => sc.CourseId)
                         .OnDelete(DeleteBehavior.NoAction); 
-            #endregion
-
-            #region Data Seeding
-            modelBuilder.Entity<Student>()
-                        .HasData(StudentsSeed.InitialStudents);
-
-            modelBuilder.Entity<Course>()
-                        .HasData(CoursesSeed.InitialCourses);
-
-            modelBuilder.Entity<Enrollment>()
-                        .HasData(EnrollmentsSeed.InitialStCourses);
             #endregion
 
             base.OnModelCreating(modelBuilder);

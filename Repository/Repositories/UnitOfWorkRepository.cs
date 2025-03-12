@@ -1,6 +1,4 @@
-﻿using DAL.Context;
-using Repository.Interfaces;
-
+﻿
 namespace Repository.Repositories
 {
     public class UnitOfWorkRepository : IUnitOfWorkRepository
@@ -14,6 +12,10 @@ namespace Repository.Repositories
         public UnitOfWorkRepository(ApplicationDbContext context)
         {
             _context = context;
+
+            Courses = new CoursesRepository(_context);
+            Students = new StudentsRepository();
+            Enrollments = new EnrollmentsRepository();
         }
     }
 }

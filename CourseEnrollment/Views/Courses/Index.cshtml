@@ -1,4 +1,5 @@
-﻿
+﻿@model List<Course>
+
 @{
     ViewData["Title"] = "Courses";
 }
@@ -12,11 +13,20 @@
         <table class="table">
             <thead>
                 <tr>
-                    <th scope="col">#</th>
+                    <th>Title</th>
+                    <th>Description</th>
+                    <th>Max Capacity</th>
                 </tr>
             </thead>
             <tbody>
-
+                @foreach(Course crs in Model)
+                {
+                    <tr>
+                        <td>@crs.Title</td>
+                        <td>@crs.Description</td>
+                        <td>@crs.MaxCapacity</td>
+                    </tr>
+                }
             </tbody>
         </table>
     </div>

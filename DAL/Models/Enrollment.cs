@@ -6,7 +6,7 @@ namespace DAL.Models
         public int CourseId { get; set; }
         public int StudentId { get; set; }
 
-        public virtual Student Student { get; set; } = new Student();
-        public virtual Course Course { get; set; } = new Course();
+        public virtual Student Student { get; set; } 
+        public virtual Course Course { get; set; } 
     }
 }

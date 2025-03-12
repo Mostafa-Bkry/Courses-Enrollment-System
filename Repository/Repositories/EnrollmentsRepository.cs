@@ -1,7 +1,7 @@
 ﻿
 namespace Repository.Repositories
 {
-    public class EnrollmentsRepository
+    public class EnrollmentsRepository : IEnrollmentsRepository
     {
     }
 }

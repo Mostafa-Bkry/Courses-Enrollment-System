@@ -1,6 +1,8 @@
 using DAL.Context;
 using Microsoft.EntityFrameworkCore;
 using Repository.Interfaces;
+using Repository.Repositories;
+using System;
 
 namespace CourseEnrollment
 {
@@ -14,16 +16,28 @@ namespace CourseEnrollment
             // Add services to the container.
             builder.Services.AddControllersWithViews();
 
-
+            #region My Services
             // Register Database Service using EFCore In memory database
             builder.Services.AddDbContext<ApplicationDbContext>(
                 options => options.UseInMemoryDatabase(connectionString));
 
             // Register repositories in the unit of work
-            //builder.Services.AddTransient<IUnitOfWorkRepository, IUnitOfWorkRepository>();
+            builder.Services.AddScoped<IUnitOfWorkRepository, UnitOfWorkRepository>(); 
+            #endregion
 
 
             var app = builder.Build();
+
+            #region Ensure Database Creation and seeding
+            // force the application go to the OnModelCreating method to 
+            // make data seeding on the first application execution
+            using (var scope = app.Services.CreateScope())
+            {
+                var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+                dbContext.Database.EnsureCreated();
+            } 
+            #endregion
+
 
             // Configure the HTTP request pipeline.
             if (!app.Environment.IsDevelopment())
