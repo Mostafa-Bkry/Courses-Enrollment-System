@@ -22,10 +22,21 @@ namespace Repository.Repositories
             return _context?.Students?.Find(id) ?? new Student();
         }
 
-        public bool Add(Student student)
+        public bool Add(Student student, out bool uniqueEmail)
         {
-            _context?.Students?.Add(student);
-            return (_context?.Entry(student)?.State == EntityState.Added) ? true : false;
+            Student? std = _context.Students.SingleOrDefault(s => s.Email == student.Email);
+            if(std is null)
+            {
+                uniqueEmail = true;
+                _context?.Students?.Add(student);
+                return (_context?.Entry(student)?.State == EntityState.Added) ? true : false;
+            }
+            else
+            {
+                uniqueEmail = false;
+            }
+
+            return false;
         }
 
         public bool Edit(Student student)
