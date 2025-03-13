@@ -1,0 +1,56 @@
+﻿@model EnrollmentFormVM
+
+@{
+    ViewData["Title"] = "Add";
+    SelectList courses = new SelectList(Model.Courses, nameof(Course.Id), nameof(Course.Title));
+    SelectList students = new SelectList(Model.Students, nameof(EnrollFormSelectStudentDataVM.Id), nameof(EnrollFormSelectStudentDataVM.ShowedData));
+}
+
+
+<div class="container">
+    <div class="row text-center">
+        <div>
+            <h5>Enroll Students at Courses</h5>
+        </div>
+    </div>
+    <div class="row mt-4">
+        <div class="col-2"></div>
+        <div class="col">
+            <form asp-controller="Courses">
+                <div class="from-group mt-4">
+                    <label asp-for="selectedCrsId"></label>
+                    <select class="form-select" asp-for="selectedCrsId" asp-items="courses">
+                        <option value="0" selected disabled>Select Course</option>
+                    </select>
+                    <span class="text-danger" asp-validation-for="selectedCrsId"></span>
+                </div>
+                <div class="from-group mt-2">
+                    <label asp-for="SelectedStudentsIds" class="form-label mt-4"></label>
+                    <select class="form-select select2" asp-for="SelectedStudentsIds" asp-items="students"
+                            multiple="multiple" data-placeholder="Select Students">
+                        <option disabled></option>
+                    </select>
+                    <span asp-validation-for="SelectedStudentsIds" class="text-danger"></span>
+                </div>
+                <div class="from-group mt-4 text-center">
+                    <button type="submit" class="btn btn-success">Save</button>
+                </div>
+            </form>
+        </div>
+        <div class="col-2"></div>
+    </div>
+</div>
+
+
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial"></partial>
+    <script>
+        $(document).ready(function () {
+            $(".select2").select2({
+                placeholder: "Select Students",  // Placeholder text
+                allowClear: true  // Adds a clear button
+            });
+        });
+    </script>
+}
