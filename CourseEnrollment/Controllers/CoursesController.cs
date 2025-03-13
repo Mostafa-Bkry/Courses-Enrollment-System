@@ -85,7 +85,7 @@ namespace CourseEnrollment.Controllers
             if (done)
                 _unitOfWork.Complete();
             else
-                return BadRequest("Faild Delete this course");
+                return BadRequest("Faild to Delete this course");
 
             return RedirectToAction(nameof(Index));
 
