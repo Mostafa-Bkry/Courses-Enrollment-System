@@ -15,7 +15,7 @@ namespace Repository.Repositories
 
             Courses = new CoursesRepository(_context);
             Students = new StudentsRepository(_context);
-            Enrollments = new EnrollmentsRepository();
+            Enrollments = new EnrollmentsRepository(_context);
         }
 
         public int Complete()

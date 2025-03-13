@@ -1,0 +1,58 @@
+﻿@model List<Course>
+
+@{
+    ViewData["Title"] = "Enrollments";
+
+    SelectList courses = new SelectList(Model, nameof(Course.Id), nameof(Course.Title));
+}
+
+
+<div class="container">
+    <div class="row">
+        <div class="col-6 md">
+            <a class="btn btn-warning btn-lg" asp-action="Add">
+                <i class="bi bi-plus-circle"> New Enrollment</i>
+            </a>
+        </div>
+    </div>
+    <div class="row text-center mt-4">
+        <div>
+            <h5>Select Course to show all enrolled Students</h5>
+        </div>
+    </div>
+    <div class="row text-center mt-4">
+        <div>
+            <select id="crs" name="crs" asp-items="courses" onchange="GetStudents()">
+                <option value="0" selected disabled>Select Course</option>
+            </select>
+        </div>
+    </div>
+    <div class="row text-center mt-4">
+        <div id="enrolled">
+            
+        </div>
+    </div>
+</div>
+
+
+@section Scripts{
+    <script>
+        function GetStudents() {
+            let crsId = $("#crs").val();
+            // console.log(crsId);
+            $.ajax(
+                {
+                    url: "/Enrollments/GetEnrolled",
+                    data: { "crsId": crsId },
+                    success: function (result) {
+
+                        $("#enrolled").html(result);
+                    },
+                    error: function (){
+                        alert("Error loading students.");
+                    }
+                }
+            );
+        }
+    </script>
+}
