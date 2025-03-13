@@ -7,7 +7,7 @@ namespace Repository.Interfaces
         Student GetById(int id);
 
         bool Add(Student student, out bool uniqueEmail);
-        bool Edit(Student student);
+        bool Edit(Student student, out bool uniqueEmail);
         bool Delete(int id);
     }
 }

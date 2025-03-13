@@ -67,6 +67,46 @@ namespace CourseEnrollment.Controllers
         }
         #endregion
 
+        #region Edit
+        [HttpGet]
+        public IActionResult Edit(int id)
+        {
+            Student stdModel = _unitOfWork.Students.GetById(id);
+            return View(stdModel);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Edit(Student student)
+        {
+            if (!ModelState.IsValid)
+                return View(student);
+
+            bool uniqueEmail;
+
+            bool done = _unitOfWork.Students.Edit(student, out uniqueEmail);
+            if (done)
+            {
+                _unitOfWork.Complete();
+            }
+            else
+            {
+                // check if the problem reason is email uniqueness or not
+                if (uniqueEmail)
+                {
+                    return BadRequest("Can't Savechanges of editing this student to database");
+                }
+                else
+                {
+                    ModelState.AddModelError("Email", "Can't use this E-mail because it's already exists");
+                    return View(student);
+                }
+            }
+
+            return RedirectToAction(nameof(Index));
+        }
+        #endregion
+
         #region Delete
         [HttpGet]
         public IActionResult Delete(int id)

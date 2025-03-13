@@ -1,0 +1,55 @@
+﻿@model Student
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+
+<div class="container">
+    <div class="row text-center">
+        <div>
+            <h5>Edit: @Model.FullName</h5>
+        </div>
+    </div>
+    <div class="row mt-4">
+        <div class="col-2"></div>
+        <div class="col">
+            <form asp-action="Edit" asp-route-Id="@Model.Id">
+                <div class="from-group mt-4">
+                    <label asp-for="FullName"></label>
+                    <input class="form-control" asp-for="FullName" placeholder="Student Full Name">
+                    <span class="text-danger" asp-validation-for="FullName"></span>
+                </div>
+                <div class="from-group mt-4">
+                    <label asp-for="Email"></label>
+                    <input class="form-control" asp-for="Email" placeholder="E-mail">
+                    <span class="text-danger" asp-validation-for="Email"></span>
+                </div>
+                <div class="from-group mt-4">
+                    <label asp-for="BirthDate"></label>
+                    <input class="form-control" asp-for="BirthDate" placeholder="Birthdate">
+                    <span class="text-danger" asp-validation-for="BirthDate"></span>
+                </div>
+                <div class="from-group mt-4">
+                    <label asp-for="NID"></label>
+                    <input class="form-control" asp-for="NID" placeholder="National ID (14 numbers)">
+                    <span class="text-danger" asp-validation-for="NID"></span>
+                </div>
+                <div class="from-group mt-4">
+                    <label asp-for="PhoneNumber"></label>
+                    <input class="form-control" asp-for="PhoneNumber" placeholder="Phone Number (11 numbers)">
+                    <span class="text-danger" asp-validation-for="PhoneNumber"></span>
+                </div>
+                <div class="from-group mt-4 text-center">
+                    <button type="submit" class="btn btn-success">Save</button>
+                </div>
+            </form>
+        </div>
+        <div class="col-2"></div>
+    </div>
+</div>
+
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial"></partial>
+}

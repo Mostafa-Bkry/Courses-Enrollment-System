@@ -1,5 +1,6 @@
 ﻿
 using Microsoft.EntityFrameworkCore;
+using System.Runtime.CompilerServices;
 
 namespace Repository.Repositories
 {
@@ -25,7 +26,7 @@ namespace Repository.Repositories
         public bool Add(Student student, out bool uniqueEmail)
         {
             Student? std = _context.Students.SingleOrDefault(s => s.Email == student.Email);
-            if(std is null)
+            if (std is null)
             {
                 uniqueEmail = true;
                 _context?.Students?.Add(student);
@@ -39,21 +40,38 @@ namespace Repository.Repositories
             return false;
         }
 
-        public bool Edit(Student student)
+        public bool Edit(Student student, out bool uniqueEmail)
         {
             Student? existingStud = _context?.Students?.Find(student.Id);
 
             if (existingStud is not null)
             {
-                existingStud.FullName = student.FullName;
-                existingStud.Email = student.Email;
-                existingStud.BirthDate = student.BirthDate;
-                existingStud.NID = student.NID;
-                existingStud.PhoneNumber = student.PhoneNumber;
+                if (existingStud.Email == student.Email)
+                {
+                    uniqueEmail = true;
+                }
+                else
+                {
+                    Student? std = _context?.Students.SingleOrDefault(s => s.Email == student.Email);
+                    if (std is null || existingStud.Email == std.Email)
+                        uniqueEmail = true;
+                    else
+                        uniqueEmail = false;
+                }
 
-                return (_context?.Entry(existingStud)?.State == EntityState.Modified) ? true : false;
+                if (uniqueEmail)
+                {
+                    existingStud.FullName = student.FullName;
+                    existingStud.Email = student.Email;
+                    existingStud.BirthDate = student.BirthDate;
+                    existingStud.NID = student.NID;
+                    existingStud.PhoneNumber = student.PhoneNumber;
+
+                    return true;
+                }
             }
 
+            uniqueEmail = false;
             return false;
         }
 
