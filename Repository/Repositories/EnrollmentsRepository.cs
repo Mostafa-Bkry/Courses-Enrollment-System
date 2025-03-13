@@ -19,7 +19,8 @@ namespace Repository.Repositories
 
         public Enrollment GetById(int crsId, int stdId)
         {
-            return _context?.Enrollments?.Find(crsId, stdId) ?? new Enrollment();
+            return _context?.Enrollments?
+                .FirstOrDefault(e => e.CourseId == crsId && e.StudentId == stdId) ?? new Enrollment();
         }
 
         public List<Course> GetCoursesPerStudent(int stdId)
@@ -47,7 +48,16 @@ namespace Repository.Repositories
 
         public bool Delete(int crsId, int stdId)
         {
-            throw new NotImplementedException();
+            Enrollment? exist = _context?.Enrollments?
+                .FirstOrDefault(e => e.CourseId == crsId && e.StudentId == stdId);
+
+            if (exist is not null)
+            {
+                _context?.Enrollments?.Remove(exist);
+                return (_context?.Entry(exist)?.State == EntityState.Deleted) ? true : false;
+            }
+
+            return false;
         }
     }
 }

@@ -33,13 +33,13 @@ namespace DAL.Context
                         .HasOne(sc => sc.Student)
                         .WithMany(s => s.Enrollments)
                         .HasForeignKey(sc => sc.StudentId)
-                        .OnDelete(DeleteBehavior.NoAction);
+                        .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<Enrollment>()
                         .HasOne(sc => sc.Course)
                         .WithMany(s => s.Enrollments)
                         .HasForeignKey(sc => sc.CourseId)
-                        .OnDelete(DeleteBehavior.NoAction); 
+                        .OnDelete(DeleteBehavior.Cascade); 
             #endregion
 
             base.OnModelCreating(modelBuilder);

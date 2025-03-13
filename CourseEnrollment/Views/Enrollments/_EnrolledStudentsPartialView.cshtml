@@ -1,4 +1,4 @@
-﻿@model List<Student>
+﻿@model StudentsPerSelectedCourseVM
 
 
 <table class="table table-bordered text-center">
@@ -13,7 +13,7 @@
         </tr>
     </thead>
     <tbody>
-        @foreach (Student std in Model)
+        @foreach (Student std in Model.CrsStudents)
         {
             <tr>
                 <td>@std.FullName</td>
@@ -22,7 +22,7 @@
                 <td>@std.NID</td>
                 <td>@std.PhoneNumber</td>
                 <td>
-                    <a href="#" class="btn btn-danger delete-btn" data-id="@std.Id" data-bs-toggle="modal" data-bs-target="#deleteModal">
+                    <a href="#" class="btn btn-danger delete-btn" onclick="GetCrsandStd(@Model.CrsId, @std.Id)" data-bs-toggle="modal" data-bs-target="#deleteModal">
                         <i class="bi bi-trash3-fill"></i>
                     </a>
                 </td>
@@ -33,8 +33,3 @@
 
 
 <partial name="_ConfirmDeletionModalPartialView"></partial>
-
-
-@section Scripts {
-    
-}

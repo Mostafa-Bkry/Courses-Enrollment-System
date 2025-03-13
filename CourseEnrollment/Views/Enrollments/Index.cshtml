@@ -17,7 +17,7 @@
     </div>
     <div class="row text-center mt-4">
         <div>
-            <h5>Select Course to show all enrolled Students</h5>
+            <h4>Select Course to show all enrolled Students</h4>
         </div>
     </div>
     <div class="row text-center mt-4">
@@ -36,23 +36,6 @@
 
 
 @section Scripts{
-    <script>
-        function GetStudents() {
-            let crsId = $("#crs").val();
-            // console.log(crsId);
-            $.ajax(
-                {
-                    url: "/Enrollments/GetEnrolled",
-                    data: { "crsId": crsId },
-                    success: function (result) {
-
-                        $("#enrolled").html(result);
-                    },
-                    error: function (){
-                        alert("Error loading students.");
-                    }
-                }
-            );
-        }
-    </script>
+    <script src="~/js/get-students-per-course.js"></script>
+    @* <script src="~/js/confirm-enrollment-delete.js"></script> *@
 }
