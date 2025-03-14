@@ -20,6 +20,7 @@ namespace CourseEnrollment.Controllers
             return View(crsModel);
         }
 
+        #region Getting the enrolled students against selected course
         [HttpGet]
         public IActionResult GetEnrolled(int crsId)
         {
@@ -31,8 +32,10 @@ namespace CourseEnrollment.Controllers
             };
 
             return PartialView("_EnrolledStudentsPartialView", stdModel);
-        }
+        } 
+        #endregion
 
+        #region Checking if the student is already enrolled
         [HttpGet]
         public IActionResult CheckIfEnrolled(int crsId, List<int> selectedStudents)
         {
@@ -49,13 +52,25 @@ namespace CourseEnrollment.Controllers
                 }
             }
 
-            if(status == -1 && alreadyEnrolled.Count > 0)
+            if (status == -1 && alreadyEnrolled.Count > 0)
             {
                 return Json(new { status = -1, stds = alreadyEnrolled.Select(s => new { s.Id, s.FullName, s.Email }) });
             }
 
             return Json("safe");
         }
+        #endregion
+
+        #region Getting course slots
+        [HttpGet]
+        public IActionResult GetSlots(int crsId)
+        {
+            int maxSlots = _unitOfWork.Courses.GetById(crsId).MaxCapacity;
+            int availableSlots = maxSlots - _unitOfWork.Enrollments.GetStudentsPerCourse(crsId).Count;
+
+            return Json(new { maxSlots, availableSlots });
+        }
+        #endregion
 
         #region Add
         [HttpGet]
@@ -83,6 +98,17 @@ namespace CourseEnrollment.Controllers
         {
             if (!ModelState.IsValid)
                 return View(enrollModel);
+
+            int maxSlots = _unitOfWork.Courses.GetById(enrollModel.selectedCrsId).MaxCapacity;
+            int availableSlots = maxSlots - _unitOfWork.Enrollments.GetStudentsPerCourse(enrollModel.selectedCrsId).Count;
+            int willBeEnrolled = enrollModel.SelectedStudentsIds.Count;
+
+            if(willBeEnrolled > availableSlots)
+            {
+                ModelState.AddModelError("selectedCrsId", 
+                    $"There are no available slots yet! at {_unitOfWork.Courses.GetById(enrollModel.selectedCrsId).Title}");
+                return RedirectToAction(nameof(Add));
+            }
 
             List<Enrollment> enrollments = new List<Enrollment>();
             foreach (int sId in enrollModel.SelectedStudentsIds)

@@ -23,7 +23,7 @@ function CheckIfEnrolled() {
 
     $.ajax({
         url: "/Enrollments/CheckIfEnrolled",
-        type: "GET",
+        type: "get",
         traditional: true,
         data: { selectedStudents: stdIds, crsId: crsId },
         success: function (result) {
@@ -53,4 +53,29 @@ $("form").on("submit", function (e) {
 
 function GetSlots() {
     let crsId = $("#selectedCrsId").val();
+
+    if (!crsId) {
+        return;
+    }
+
+    $("#slots").html("");
+
+    $.ajax({
+        url: "/Enrollments/GetSlots",
+        type: "get",
+        data: { crsId: crsId },
+        success: function (result) {
+            console.log(result);
+            $("#slots").html(result.availableSlots);
+            if (result.availableSlots <= 0) {
+                $("#slots").css("color", "red");
+            }
+            else {
+                $("#slots").css("color", "green");
+            }
+        },
+        error: function () {
+            alert("Error loading students.");
+        }
+    });
 }
