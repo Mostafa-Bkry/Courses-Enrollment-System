@@ -8,7 +8,7 @@ namespace Repository.Interfaces
         List<Student> GetStudentsPerCourse(int crsId);
         List<Course> GetCoursesPerStudent(int stdId);
 
-        bool Add(Enrollment enrollment);
+        bool Add(List<Enrollment> enrollments);
         bool Delete(int crsId, int stdId);
     }
 }

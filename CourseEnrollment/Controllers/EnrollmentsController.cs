@@ -16,6 +16,7 @@ namespace CourseEnrollment.Controllers
         public IActionResult Index()
         {
             List<Course> crsModel = _unitOfWork.Courses.GetAll();
+
             return View(crsModel);
         }
 
@@ -32,12 +33,37 @@ namespace CourseEnrollment.Controllers
             return PartialView("_EnrolledStudentsPartialView", stdModel);
         }
 
+        [HttpGet]
+        public IActionResult CheckIfEnrolled(int crsId, List<int> selectedStudents)
+        {
+            List<Student> alreadyEnrolled = new List<Student>();
+            int status = 0;
+
+            foreach (int stId in selectedStudents)
+            {
+                Enrollment en = _unitOfWork.Enrollments.GetById(crsId, stId);
+                if (en.CourseId > 0 && en.StudentId > 0)
+                {
+                    status = -1;
+                    alreadyEnrolled.Add(_unitOfWork.Students.GetById(stId));
+                }
+            }
+
+            if(status == -1 && alreadyEnrolled.Count > 0)
+            {
+                return Json(new { status = -1, stds = alreadyEnrolled.Select(s => new { s.Id, s.FullName, s.Email }) });
+            }
+
+            return Json("safe");
+        }
+
         #region Add
         [HttpGet]
         public IActionResult Add()
         {
             List<Course> courses = _unitOfWork.Courses.GetAll();
             List<Student> students = _unitOfWork.Students.GetAll();
+
             EnrollmentFormVM enrollmentModel = new EnrollmentFormVM()
             {
                 Courses = courses,
@@ -53,12 +79,20 @@ namespace CourseEnrollment.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Add(Course course)
+        public IActionResult Add(EnrollmentFormVM enrollModel)
         {
             if (!ModelState.IsValid)
-                return View(course);
+                return View(enrollModel);
 
-            bool done = _unitOfWork.Courses.Add(course);
+            List<Enrollment> enrollments = new List<Enrollment>();
+            foreach (int sId in enrollModel.SelectedStudentsIds)
+                enrollments.Add(new Enrollment()
+                {
+                    CourseId = enrollModel.selectedCrsId,
+                    StudentId = sId
+                });
+
+            bool done = _unitOfWork.Enrollments.Add(enrollments);
             if (done)
                 _unitOfWork.Complete();
             else

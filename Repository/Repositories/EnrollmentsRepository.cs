@@ -41,9 +41,19 @@ namespace Repository.Repositories
                             .ToList() ?? new List<Student>();
         }
 
-        public bool Add(Enrollment enrollment)
+        public bool Add(List<Enrollment> enrollments)
         {
-            throw new NotImplementedException();
+            if (enrollments.Count > 0)
+            {
+                foreach (Enrollment enr in enrollments)
+                {
+                    if (!(_context?.Enrollments?.Contains(enr) ?? true))
+                        _context?.Enrollments?.Add(enr);
+                }
+                return true;
+            }
+
+            return false;
         }
 
         public bool Delete(int crsId, int stdId)

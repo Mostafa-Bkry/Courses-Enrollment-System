@@ -9,24 +9,30 @@
 
 <div class="container">
     <div class="row text-center">
-        <div>
-            <h5>Enroll Students at Courses</h5>
-        </div>
-    </div>
-    <div class="row mt-4">
         <div class="col-2"></div>
         <div class="col">
-            <form asp-controller="Courses">
+            <h5>Enroll Students at Courses</h5>
+        </div>
+        <div class="col-2">
+            <h4>Available Slots</h4>
+        </div>
+    </div>
+    <div class="row text-center mt-4" >
+    </div>
+    <div class="row mt-2">
+        <div class="col-2"></div>
+        <div class="col">
+            <form asp-controller="Enrollments">
                 <div class="from-group mt-4">
                     <label asp-for="selectedCrsId"></label>
-                    <select class="form-select" asp-for="selectedCrsId" asp-items="courses">
+                    <select class="form-select" onchange="GetSlots()" asp-for="selectedCrsId" asp-items="courses">
                         <option value="0" selected disabled>Select Course</option>
                     </select>
                     <span class="text-danger" asp-validation-for="selectedCrsId"></span>
                 </div>
                 <div class="from-group mt-2">
                     <label asp-for="SelectedStudentsIds" class="form-label mt-4"></label>
-                    <select class="form-select select2" asp-for="SelectedStudentsIds" asp-items="students"
+                    <select class="form-select select2" onchange="CheckIfEnrolled()" asp-for="SelectedStudentsIds" asp-items="students"
                             multiple="multiple" data-placeholder="Select Students">
                         <option disabled></option>
                     </select>
@@ -45,12 +51,5 @@
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial"></partial>
-    <script>
-        $(document).ready(function () {
-            $(".select2").select2({
-                placeholder: "Select Students",  // Placeholder text
-                allowClear: true  // Adds a clear button
-            });
-        });
-    </script>
+    <script src="~/js/new-enrollment.js"></script>
 }
