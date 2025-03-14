@@ -74,7 +74,7 @@ namespace CourseEnrollment.Controllers
 
         #region Add
         [HttpGet]
-        public IActionResult Add()
+        public IActionResult Add(bool noSlots, int selectedCrs)
         {
             List<Course> courses = _unitOfWork.Courses.GetAll();
             List<Student> students = _unitOfWork.Students.GetAll();
@@ -88,6 +88,10 @@ namespace CourseEnrollment.Controllers
                     ShowedData = string.Concat(s.FullName, " - ", s.Email),
                 }).ToList(),
             };
+
+            if(noSlots)
+                ModelState.AddModelError("selectedCrsId",
+                    $"There are no available slots at ==> {_unitOfWork.Courses.GetById(selectedCrs).Title} <== yet!");
 
             return View(enrollmentModel);
         }
@@ -105,9 +109,7 @@ namespace CourseEnrollment.Controllers
 
             if(willBeEnrolled > availableSlots)
             {
-                ModelState.AddModelError("selectedCrsId", 
-                    $"There are no available slots yet! at {_unitOfWork.Courses.GetById(enrollModel.selectedCrsId).Title}");
-                return RedirectToAction(nameof(Add));
+                return RedirectToAction(nameof(Add), new { noSlots = true, selectedCrs = enrollModel.selectedCrsId});
             }
 
             List<Enrollment> enrollments = new List<Enrollment>();

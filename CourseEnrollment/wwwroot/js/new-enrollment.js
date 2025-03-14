@@ -59,8 +59,10 @@ function GetSlots() {
     }
 
     $("#slots").html("");
+    //deselect students
+    $("#SelectedStudentsIds").val([]).trigger("change"); 
 
-    $.ajax({
+    $.ajax({    
         url: "/Enrollments/GetSlots",
         type: "get",
         data: { crsId: crsId },
